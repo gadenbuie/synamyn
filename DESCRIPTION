@@ -1,0 +1,23 @@
+Package: synamin
+Title: RStudio Synonym Addin
+Version: 0.1.0
+Authors@R: 
+    person(given = "Garrick",
+           family = "Aden-Buie",
+           role = c("aut", "cre"),
+           email = "g.adenbuie@gmail.com")
+Description: Replace the selected word with a synonym or
+    antonym.
+License: MIT + file LICENSE
+Imports: 
+    miniUI,
+    rstudioapi,
+    shiny,
+    syn (>= 0.0.1)
+Suggests: 
+    testthat
+Remotes: 
+    ropenscilabs/syn
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.0

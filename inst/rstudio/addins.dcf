@@ -1,0 +1,9 @@
+Name: Replace Word with Synonym
+Description: Replace selected word with a synonym...
+Binding: syn_addin
+Interactive: true
+
+Name: Replace Word with Antonym
+Description: Replace selected word with an antonym...
+Binding: ant_addin
+Interactive: true
