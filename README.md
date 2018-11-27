@@ -17,7 +17,7 @@ To use it, simply select a _single_ word and choose one of the two addins
 
 - Replace Word with Antonym
 
-and a dialogue will ~~appear~~ ~~open~~ ~~deploy~~ materalize.
+and a dialog will ~~appear~~ ~~open~~ ~~deploy~~ materalize.
 
 <img src="man/figures/addin-screenshot.png" align="center" width="400px"/>
 
