@@ -72,7 +72,7 @@ find_synonym <- function(word, synonym = TRUE) {
     stop("Please select a single word.", call. = FALSE)
   }
 
-  suffixes <- c("ies", "ier", "iest", "ed", "d", "ing", "s", "es")
+  suffixes <- c("ed", "d", "ing", "s", "es", "i?es", "i?er", "i?est")
   search_words <- c(word,
     vapply(suffixes, function(suffix) sub(paste0(suffix, "$"), "", word), "")
   )
