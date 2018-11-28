@@ -2,7 +2,7 @@
 
 **synamyn** is a simple [RStudio addin](https://github.com/daattali/addinslist) based on [ropenscilabs/syn](https://github.com/ropenscilabs/syn) that lets you replace the selected word with a synonym or antonym.
 
-## Installation
+## Install it
 
 You can install the latest version of **synamyn** from GitHub with:
 
@@ -11,7 +11,9 @@ You can install the latest version of **synamyn** from GitHub with:
 remotes::install_github("gadenbuie/synamyn")
 ```
 
-To use it, highlight a _single_ word and choose one of the two addins
+## Use it
+
+To use **synamyn**, highlight a _single_ word and choose one of the two addins
 
 - Replace Word with Synonym
 
