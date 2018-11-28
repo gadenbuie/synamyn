@@ -1,4 +1,4 @@
 library(testthat)
-library(synamin)
+library(synamyn)
 
-test_check("synamin")
+test_check("synamyn")
