@@ -11,10 +11,16 @@ test_that("finds a regular antonym", {
 })
 
 test_that("finds syns/ants for irregular words", {
-  expect_equal(find_synonym("happier"), find_synonym("happy"))
-  expect_equal(find_synonym("happiest"), find_synonym("happy"))
-  expect_equal(find_synonym("activities"), find_synonym("activity"))
-  expect_equal(find_synonym("releasing"), find_synonym("release"))
-  expect_equal(find_synonym("loved"), find_synonym("loved"))
-  expect_equal(find_synonym("described"), find_synonym("describe"))
+  expect_equal(find_synonym("happier")["happy"],       find_synonym("happy"))
+  expect_equal(find_synonym("happiest")["happy"],      find_synonym("happy"))
+  expect_equal(find_synonym("activities")["activity"], find_synonym("activity"))
+  expect_equal(find_synonym("releasing")["release"],   find_synonym("release"))
+  expect_equal(find_synonym("described")["describe"],  find_synonym("describe"))
+  expect_equal(names(find_synonym("loved")), c("loved", "love"))
+})
+
+test_that("errors appropriately", {
+  expect_error(find_synonym("qwertyasdfg"), "No synonyms found")
+  expect_error(find_synonym("qwertyasdfg", FALSE), "No antonyms found")
+  expect_error(find_synonym("abc def"), "single word")
 })

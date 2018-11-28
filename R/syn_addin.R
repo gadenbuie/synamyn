@@ -32,12 +32,23 @@ syn_gadget <- function(word, synonym = TRUE) {
   results <- find_synonym(word, synonym)
 
   ui <- miniPage(
+    tags$style(
+      "h5 {",
+      "  display: inline-block;",
+      "  margin-top: 0;",
+      "  max-width: 100%;",
+      "  margin-bottom: 10px;",
+      "  font-weight: 700; }",
+      "#syn_word_next { color: #dc3545; }",
+      "#syn_word_next:hover { text-decoration: none; border-bottom: 1px dotted }"
+    ),
     miniContentPanel(
       padding = 25,
-      selectizeInput("syn_result",
-                     paste0(syn_type(synonym), "s of ", names(results)[1]),
-                     choices = results[[1]],
-                     multiple = FALSE),
+      tags$h5(
+        paste0(syn_type(synonym), "s of"),
+        uiOutput("ui_syn_word", inline = TRUE)
+      ),
+      selectizeInput("syn_result", label = NULL, choices = results[[1]], multiple = FALSE),
       uiOutput("ui_syn_replacement"),
       actionButton("return", "Replace", icon = icon("exchange"), class = "btn-primary"),
       actionButton("cancel", "Cancel", icon = icon("times-circle"))
@@ -45,13 +56,36 @@ syn_gadget <- function(word, synonym = TRUE) {
   )
 
   server <- function(input, output, session) {
+    syn_word_selector <- reactiveVal(1L)
+    observeEvent(input$syn_word_next, {
+      # Update currently selected syn hit
+      s_syn_idx <- syn_word_selector()
+      next_syn_idx <- s_syn_idx + 1L
+      if (next_syn_idx > length(results)) {
+        next_syn_idx <- 1L
+      }
+      syn_word_selector(next_syn_idx)
+    })
+
+    output$ui_syn_word <- renderUI({
+      if (length(results) < 2) {
+        names(results)[1]
+      } else {
+        actionLink("syn_word_next", names(results)[syn_word_selector()],
+                   alt = paste(names(results), collapse = "\n"))
+      }
+    })
+
+    observe({
+      updateSelectizeInput(
+        session, "syn_result",
+        choices = results[[syn_word_selector()]])
+    })
+
     output$ui_syn_replacement <- renderUI({
       ret <- input$syn_result
       if (is_first_capitalized) {
-        ret <- paste0(
-          toupper(substr(ret, 1, 1)),
-          substring(ret, 2)
-        )
+        ret <- paste0(toupper(substr(ret, 1, 1)), substring(ret, 2))
       }
       textInput("syn_replacement", paste0('Replace "', word, '" with'), value = ret)
     })
@@ -76,26 +110,25 @@ find_synonym <- function(word, synonym = TRUE) {
     stop("Please select a single word.", call. = FALSE)
   }
 
+  # Generate possible root variants of given `word` by removing endings
   suffixes <- c("ed", "d", "ing", "s", "es", "i?es", "i?er", "i?est")
-  search_words <- c(word,
-    vapply(suffixes, function(suffix) sub(paste0(suffix, "$"), "", word), "")
+  search_words <- vapply(
+    suffixes,
+    function(suffix) sub(paste0(suffix, "$"), "", word),
+    character(1)
   )
-  search_words <- c(search_words, paste0(search_words, "e"), paste0(search_words, "y"))
 
-  results <- if (synonym) {
-    syn::syns(search_words)
-  } else {
-    syn::ants(search_words)
-  }
+  search_words <- c(word, search_words,
+                    paste0(search_words, "e"), paste0(search_words, "y"))
+  search_words <- unique(search_words)
 
-  ret <- list()
-  for (i in names(results)) {
-    if (!length(ret) && length(results[[i]])) ret <- results[i]
-  }
+  # Search for snys/ants for all variants of `word`
+  results <- if (synonym) syn::syns(search_words) else syn::ants(search_words)
 
-  if (!length(ret)) {
+  # Return the first result in the list (if any)
+  hits <- vapply(results, length, 0L) > 0
+  if (!any(hits)) {
     stop(paste0("No ", tolower(syn_type(synonym)), "s found."), call. = FALSE)
   }
-
-  ret
+  results[hits]
 }
