@@ -2,9 +2,15 @@
 % Please edit documentation in R/syn_addin.R
 \name{syn_addin}
 \alias{syn_addin}
+\alias{ant_addin}
 \title{Synonym and Antonym Replacement Addin}
 \usage{
 syn_addin(synonym = TRUE)
+
+ant_addin()
+}
+\arguments{
+\item{synonym}{Show synonym (`TRUE`) or antonym (`FALSE`)}
 }
 \description{
 Gets currently selected word, searches for synonym or antonym using [syn],

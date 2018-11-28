@@ -2,6 +2,7 @@
 #'
 #' Gets currently selected word, searches for synonym or antonym using [syn],
 #' allows user to pick replacement.
+#' @param synonym Show synonym (`TRUE`) or antonym (`FALSE`)
 syn_addin <- function(synonym = TRUE) {
   context <- rstudioapi::getSourceEditorContext()
   if (length(context$selection) != 1) {
@@ -13,11 +14,14 @@ syn_addin <- function(synonym = TRUE) {
   }
 }
 
+#' @rdname syn_addin
 ant_addin <- function() syn_addin(synonym = FALSE)
 
 #' Synonym Antonym Gadget
 #'
 #' Gadget that powers synonym/antonym replacement.
+#' @param word A single word to look up
+#' @inheritParams syn_addin
 #' @export
 syn_gadget <- function(word, synonym = TRUE) {
   library(shiny)

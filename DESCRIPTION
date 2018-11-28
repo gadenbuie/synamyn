@@ -9,6 +9,8 @@ Authors@R:
 Description: Replace the selected word with a synonym or
     antonym.
 License: MIT + file LICENSE
+URL: https://github.com/gadenbuie/synamyn
+BugReports: https://github.com/gadenbuie/synamyn/issues
 Imports: 
     miniUI,
     rstudioapi,

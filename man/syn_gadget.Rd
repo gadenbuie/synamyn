@@ -6,6 +6,11 @@
 \usage{
 syn_gadget(word, synonym = TRUE)
 }
+\arguments{
+\item{word}{A single word to look up}
+
+\item{synonym}{Show synonym (`TRUE`) or antonym (`FALSE`)}
+}
 \description{
 Gadget that powers synonym/antonym replacement.
 }
