@@ -21,6 +21,6 @@ To use **synamyn**, highlight a _single_ word and choose one of the two addins
 
 and a dialog will ~~appear~~ ~~open~~ ~~deploy~~ materialize.
 
-<img src="man/figures/addin-screenshot.png" align="center" width="400px"/>
+<img src="man/figures/addin-screenshot.png" align="center" width="300px"/>
 
 Learn more about **syn** at <https://syn.njtierney.com/>.

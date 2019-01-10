@@ -50,8 +50,12 @@ syn_gadget <- function(word, synonym = TRUE) {
       ),
       selectizeInput("syn_result", label = NULL, choices = results[[1]], multiple = FALSE),
       uiOutput("ui_syn_replacement"),
-      actionButton("return", "Replace", icon = icon("exchange"), class = "btn-primary"),
-      actionButton("cancel", "Cancel", icon = icon("times-circle"))
+      tags$div(
+        class = "btn-group btn-group-sm", role = "group",
+        actionButton("return", "Replace", icon = icon("exchange"), class = "btn-primary"),
+        actionButton("random", "Random", icon = icon("random")),
+        actionButton("cancel", "Cancel", icon = icon("times-circle"))
+      )
     )
   )
 
@@ -80,6 +84,13 @@ syn_gadget <- function(word, synonym = TRUE) {
       updateSelectizeInput(
         session, "syn_result",
         choices = results[[syn_word_selector()]])
+    })
+
+    observeEvent(input$random, {
+      updateSelectizeInput(
+        session, "syn_result",
+        selected = sample(results[[syn_word_selector()]], 1)
+      )
     })
 
     output$ui_syn_replacement <- renderUI({
